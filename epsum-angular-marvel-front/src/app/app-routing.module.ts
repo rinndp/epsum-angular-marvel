@@ -5,6 +5,7 @@ import {AppComponent} from './app.component';
 import {LayoutConHeaderComponent} from './layout-con-header/layout-con-header.component';
 import {PanelControlComponent} from './panel-control/panel-control.component';
 import {RegisterComponent} from './register/register.component';
+import {ListaUsuariosComponent} from './lista-usuarios/lista-usuarios.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -14,6 +15,7 @@ const routes: Routes = [
     path: "app", component: LayoutConHeaderComponent, children: [
       {path: '', redirectTo: 'panel-de-control', pathMatch: 'full'},
       {path: "panel-de-control", component: PanelControlComponent},
+      {path: "lista-usuarios", component: ListaUsuariosComponent},
     ]},
 ];
 

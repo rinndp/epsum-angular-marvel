@@ -10,6 +10,7 @@ import { LayoutConHeaderComponent } from './layout-con-header/layout-con-header.
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import { ListaUsuariosComponent } from './lista-usuarios/lista-usuarios.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
     LoginComponent,
     PanelControlComponent,
     LayoutConHeaderComponent,
-    RegisterComponent
+    RegisterComponent,
+    ListaUsuariosComponent
   ],
   imports: [
     BrowserModule,
