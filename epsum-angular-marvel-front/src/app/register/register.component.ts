@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PopUpService} from '../services/utils/pop-up.service';
 import {Router} from '@angular/router';
+import {RegisterService} from '../services/auth/register.service';
+import {NewUser} from '../services/interfaces/usuario';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +17,8 @@ export class RegisterComponent {
   constructor(
     public formBuilder: FormBuilder,
     private popupService: PopUpService,
-    private router: Router
+    private router: Router,
+    private registerService: RegisterService,
   ) {
     this.registerForm = formBuilder.group({
       username: ['', [Validators.required]],
@@ -32,15 +35,20 @@ export class RegisterComponent {
   }
 
   enviar () {
-    if (this.registerForm.invalid) {
+    if (this.registerForm.invalid)
       return;
-    }
 
+    this.registerService.createUser(this.registerForm.value as NewUser).subscribe({
+      next: () => {
+        this.popupService.showMessage(
+          "success", "Registrarse",
+          "Se ha registrado correctamente")
+      },
 
-    this.popupService.showMessage(
-      "success", "Registrarse",
-      "Se ha registrado correctamente")
-
+      error: error => {
+        console.log(error);
+      }
+    })
     this.router.navigate(['login'])
   }
 }

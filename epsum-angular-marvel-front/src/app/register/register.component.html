@@ -35,7 +35,7 @@
           <label for="age" class="form-label opacity-75">Edad (opcional)</label>
           <p class="display-5 fs-3">{{registerForm.get("age")?.value}}</p>
         </div>
-        <input id="age" type="range" class="form-range" min="15" max="100" formControlName="age">
+        <input id="age" type="range" class="form-range" min="12" max="100" formControlName="age">
       </div>
 
       </div>
@@ -45,6 +45,7 @@
                type="text"
                class="form-control"
                formControlName="email"
+               placeholder="name@example.com"
                [ngClass]="{
                'is-invalid': registerForm.get('email')?.touched && registerForm.get('email')?.invalid,
                'is-valid': registerForm.get('email')?.touched && registerForm.get('email')?.valid
