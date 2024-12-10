@@ -1,0 +1,46 @@
+<div class="w-100 position-relative container-login">
+  <div class="content w-100 h-100 p-4 position-relative bg-dark">
+    <form class="position-relative bg-white py-5 px-4 shadow-sm rounded-3" [formGroup]="loginForm" (submit)="enviar()">
+      <h1 class="display-2 mb-5 opacity-75">Login</h1>
+      <div>
+        <label for="usuario" class="form-label opacity-75">Usuario</label>
+        <input id="usuario"
+               type="text"
+               class="form-control"
+               formControlName="username"
+               [ngClass]="{
+               'is-invalid': loginForm.get('username')?.touched && loginForm.get('username')?.invalid,
+               'is-valid': loginForm.get('username')?.touched && loginForm.get('username')?.valid
+        }">
+        <div class="invalid-feedback" *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid">
+          El usuario es obligatorio
+        </div>
+      </div>
+      <div class="mt-4">
+        <label for="contraseña" class="form-label opacity-75">Contraseña</label>
+        <div class="row position-relative show-password">
+          <input id="contraseña"
+                 type="{{showPassword ? 'text':'password'}}"
+                 class="col-7 form-control mx-2"
+                 formControlName="password"
+                 [ngClass]="{
+                 'is-invalid': loginForm.get('password')?.touched && loginForm.get('password')?.invalid,
+                 'is-valid': loginForm.get('password')?.touched && loginForm.get('password')?.valid
+                 }">
+          <i class="col-1 bi {{showPassword ? 'bi-eye-fill': 'bi-eye-slash-fill'}} align-items-center justify-content-center p-2" (click)="showPasswordToggle()"></i>
+
+          <div class="invalid-feedback" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            La contraseña es obligatoria
+          </div>
+        </div>
+      </div>
+      <div class="text-center align align-items-center justify-content-center mt-5">
+        <button type="submit" class="btn btn-light bg-dark text-white rounded-5 py-3 px-4" [disabled]="loginForm.invalid">Iniciar sesión</button>
+      </div>
+      <div class="text-center align align-items-center justify-content-center mt-5">
+        <p class="form-text opacity-75">¿No tienes cuenta?</p>
+        <button type="submit" class="btn btn-light bg-dark text-white rounded-5 py-3 px-4" routerLink="/register">Registrarme</button>
+      </div>
+    </form>
+  </div>
+</div>
