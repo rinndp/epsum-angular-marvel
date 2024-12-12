@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -46,7 +43,51 @@ public class UsuarioController {
     @GetMapping("/status")
     public Map<String, String> checkStatus () {
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Conexión establedcia");
+        response.put("message", "Conexión establecida");
         return response;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> credenciales) {
+        String username = credenciales.get("username");
+        String password = credenciales.get("password");
+
+        boolean isAuth = this.usuarioService.authenticate(username, password);
+        Map <String, Object> response = new HashMap<>();
+        if (isAuth) {
+            response.put("message", "Login exitoso");
+            response.put("loginBoolean", true);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Login incorrecto");
+            response.put("loginBoolean", false);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+    }
+
+    @PostMapping("/login/v2")
+    public ResponseEntity<Map<String, Object>> loginv2(@RequestBody Map<String, String> credenciales) {
+        String username = credenciales.get("username");
+        String password = credenciales.get("password");
+
+        String result = this.usuarioService.authenticateWithPassword(username, password);
+        Map <String, Object> response = new HashMap<>();
+
+        if (result.equals("Usuario existe")) {
+            response.put("message", result);
+            response.put("loginBoolean", true);
+            return ResponseEntity.ok(response);
+
+        } else if (result.equals("Contraseña incorrecta")) {
+            response.put("message", result);
+            response.put("loginBoolean", false);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+
+        } else {
+            response.put("message", "Usuario no existe");
+            response.put("loginBoolean", false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+
+        }
     }
 }

@@ -38,4 +38,22 @@ public class UsuarioService {
     public Optional<Usuario> getUserByUsername(String username) {
         return this.usersRepository.findByUsername(username);
     }
+
+    public boolean authenticate(String username, String password) {
+        Optional<Usuario> user = this.usersRepository.findByUsernameAndPassword(username, password);
+        return user.isPresent();
+    }
+
+    public String authenticateWithPassword(String username, String password) {
+        Optional<Usuario> user = this.usersRepository.findByUsername(username);
+
+        if (user.isEmpty())
+            return "El usuario no existe";
+
+        Usuario usuario = user.get();
+        if (usuario.getPassword().equals(password))
+            return "Usuario existe";
+         else
+            return "Contraseña incorrecta";
+    }
 }

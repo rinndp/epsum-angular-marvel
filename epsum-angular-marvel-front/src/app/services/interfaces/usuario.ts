@@ -1,9 +1,5 @@
 export interface User {
-  name: string;
-  username: string;
-  email: string;
-  age: number;
-  password: string;
+
 }
 
 export interface NewUser {
@@ -11,5 +7,10 @@ export interface NewUser {
   username: string;
   email: string;
   age: number;
+  password: string;
+}
+
+export interface LoginUser {
+  username: string;
   password: string;
 }
