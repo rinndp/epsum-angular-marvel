@@ -1,0 +1,10 @@
+.container {
+  height: 100vh;
+  overflow: auto;
+
+  .card-user {
+    &:last-child {
+      margin-bottom: 60px;
+    }
+  }
+}

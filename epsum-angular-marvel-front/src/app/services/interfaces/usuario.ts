@@ -10,6 +10,13 @@ export interface NewUser {
   password: string;
 }
 
+export interface AllUsers {
+  id: number
+  name: string
+  email: string
+  age: number
+}
+
 export interface LoginUser {
   username: string;
   password: string;

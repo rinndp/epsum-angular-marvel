@@ -19,4 +19,19 @@ export class PopUpService {
       confirmButtonText: 'Cerrar',
     })
   }
+  loading(title: string, message: string) {
+    Swal.fire({
+      title: title,
+      text: message,
+      timerProgressBar: true,
+      didOpen() {
+        Swal.showLoading()
+      }
+    })
+  }
+
+  close() {
+    Swal.close()
+  }
+
 }

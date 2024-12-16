@@ -4,6 +4,7 @@ import {PopUpService} from '../services/utils/pop-up.service';
 import {LoginService} from '../services/auth/login.service';
 import {RegisterService} from '../services/auth/register.service';
 import {LoginUser} from '../services/interfaces/usuario';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class LoginComponent {
     public formBuilder: FormBuilder,
     private popupService: PopUpService,
     private loginService: LoginService,
-    private registerService: RegisterService,
+    private router: Router,
   ) {
     this.loginForm = formBuilder.group({
       username: ['', [Validators.required]],
@@ -37,10 +38,16 @@ export class LoginComponent {
 
 
     this.loginService.loginv2(this.loginForm.value as LoginUser).subscribe( {
-      next: (response) => {
-        this.popupService.showMessage(
-          "success", "Iniciar sesión",
-          response.message)
+      next: () => {
+        this.loginService.setUser(this.loginForm.value as LoginUser);
+        this.popupService.loading(
+          "Iniciar sesión", "Se ha iniciado sesión espere unos segundos...",
+          )
+
+        setTimeout(() => {
+          this.popupService.close()
+          this.router.navigateByUrl('/list-users')
+        }, 2000)
       },
       error: err => {
         if (err.status === 401) {
