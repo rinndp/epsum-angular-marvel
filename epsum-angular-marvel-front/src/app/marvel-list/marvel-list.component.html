@@ -1,0 +1,20 @@
+<div class="container w-100 position-relative">
+  <div class="text-center mt-3">
+    <img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjmHn7hDycWvYvGnj50dxygz2EUz8MBKKCqg&s">
+    <h2 class="display-4 text-center m-3">Lista de personajes</h2>
+  </div>
+  <div *ngIf="arrayCharacters.length > 0" class="d-grid mx-3 position-relative">
+    <div *ngFor="let character of arrayCharacters" class="row card-character col-5 shadow-sm w-100 text-center mt-4 rounded-4 p-3">
+      <div class="col-5 justify-content-center align-items-center text-center mt-4 me-3">
+        <p class="display-5 fs-2">ID: {{character.id}}</p>
+        <p class="display-5 fs-5">Nombre:<br>{{character.name}}</p>
+        <i class="bi bi-heart"></i>
+      </div>
+      <img class="thumbnails my-3 col-5" src="{{character.thumbnail.path +'.'+ character.thumbnail.extension}}"/>
+    </div>
+  </div>
+
+  <p *ngIf="arrayCharacters.length == 0">
+    No se han encontrado datos
+  </p>
+</div>
