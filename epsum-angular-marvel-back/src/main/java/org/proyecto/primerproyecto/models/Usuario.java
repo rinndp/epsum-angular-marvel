@@ -1,7 +1,9 @@
 package org.proyecto.primerproyecto.models;
 
+
 import jakarta.persistence.*;
-import org.hibernate.annotations.ManyToAny;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -9,12 +11,12 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 30)
     private String username;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
@@ -23,14 +25,18 @@ public class Usuario {
     @Column(nullable = false)
     private String email;
 
-    @Column()
+    @Column
     private int age;
 
-    public long getId() {
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoritoMarvel> favoritos;
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -54,8 +60,8 @@ public class Usuario {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String nombre) {
+        this.name = nombre;
     }
 
     public String getEmail() {
@@ -70,7 +76,15 @@ public class Usuario {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAge(int edad) {
+        this.age = edad;
+    }
+
+    public List<FavoritoMarvel> getFavoritos() {
+        return favoritos;
+    }
+
+    public void setFavoritos(List<FavoritoMarvel> favoritos) {
+        this.favoritos = favoritos;
     }
 }

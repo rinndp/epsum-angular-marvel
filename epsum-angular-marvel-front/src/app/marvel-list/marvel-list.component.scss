@@ -1,3 +1,14 @@
+.container {
+  height: 100vh;
+  overflow: auto;
+
+  .card-character {
+    &:last-child {
+      margin-bottom: 60px;
+    }
+  }
+}
+
 .logo {
   width: 20%;
 }

@@ -1,5 +1,6 @@
 package org.proyecto.primerproyecto.controllers;
 
+
 import org.proyecto.primerproyecto.models.Usuario;
 import org.proyecto.primerproyecto.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,76 +19,81 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> findAll () {
+    public ResponseEntity<List<Usuario>> findAll() {
         return ResponseEntity.ok(this.usuarioService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> findById (@PathVariable long id) {
-        Optional<Usuario> usuario = usuarioService.getUserById(id);
+    public ResponseEntity<Usuario> getUserById(@PathVariable Long id) {
+        Optional<Usuario> usuario = this.usuarioService.getUserById(id);
 
         return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    
     @PostMapping("/create")
-    public void createUser(@RequestBody Usuario  usuario) {
+    public void createUser(@RequestBody Usuario usuario) {
         this.usuarioService.createUser(usuario);
     }
 
     @GetMapping("/delete/{id}")
-    public void deleteUser (@PathVariable long id) {
-        this.usuarioService.deleteUser(id);
+    public void deleteUser(@PathVariable Long id) {
+        this.usuarioService.delete(id);
     }
 
     @GetMapping("/status")
-    public Map<String, String> checkStatus () {
+    public Map<String, String> checkStatus() {
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Conexión establecida");
+        response.put("message", "conexión establecida");
         return response;
     }
 
+    /*
+     * credenciales = {"username": "camilo", "password": "12345"}
+     * */
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> credenciales) {
         String username = credenciales.get("username");
         String password = credenciales.get("password");
 
         boolean isAuth = this.usuarioService.authenticate(username, password);
-        Map <String, Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
+
         if (isAuth) {
             response.put("message", "Login exitoso");
-            response.put("loginBoolean", true);
+            response.put("login", true);
             return ResponseEntity.ok(response);
         } else {
-            response.put("message", "Login incorrecto");
-            response.put("loginBoolean", false);
+            response.put("message", "Credenciales no válidas");
+            response.put("login", false);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 
+
     @PostMapping("/login/v2")
-    public ResponseEntity<Map<String, Object>> loginv2(@RequestBody Map<String, String> credenciales) {
+    public ResponseEntity<Map<String, Object>> loginV2(@RequestBody Map<String, String> credenciales) {
         String username = credenciales.get("username");
         String password = credenciales.get("password");
 
-        String result = this.usuarioService.authenticateWithPassword(username, password);
-        Map <String, Object> response = new HashMap<>();
+        ArrayList<String> result = this.usuarioService.authWithPassword(username, password);
+        Map<String, Object> response = new HashMap<>();
 
-        if (result.equals("Usuario existe")) {
+        if (result.getFirst().equals("Usuario existe")) {
             response.put("message", result);
-            response.put("loginBoolean", true);
-            return ResponseEntity.ok(response);
-
-        } else if (result.equals("Contraseña incorrecta")) {
+            response.put("logged", true);
+            response.put("user_id", result.get(1));
+            return ResponseEntity.ok(response); // Código de estado 200 -> entra en el next
+        } else if (result.getFirst().equals("Contraseña incorrecta")) {
             response.put("message", result);
-            response.put("loginBoolean", false);
+            response.put("logged", false);
+            // Código de estado 401 -> Esto entra en el error
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-
         } else {
-            response.put("message", "Usuario no existe");
-            response.put("loginBoolean", false);
+            response.put("message", result);
+            response.put("logged", false);
+            // Código de estado 404 -> Esto entra en el error
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-
         }
     }
+
 }

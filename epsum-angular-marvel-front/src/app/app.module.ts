@@ -15,6 +15,7 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { BottomNavComponent } from './bottom-nav/bottom-nav.component';
 import { ModalAddUserComponent } from './modal-add-user/modal-add-user.component';
 import { MarvelListComponent } from './marvel-list/marvel-list.component';
+import { ListFavouritesComponent } from './list-favourites/list-favourites.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MarvelListComponent } from './marvel-list/marvel-list.component';
     BottomNavComponent,
     ModalAddUserComponent,
     MarvelListComponent,
+    ListFavouritesComponent,
   ],
   imports: [
     BrowserModule,

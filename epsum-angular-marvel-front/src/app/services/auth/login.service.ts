@@ -23,8 +23,8 @@ export class LoginService {
     return this.http.post(`${this.url}/login/v2`, credenciales)
   }
 
-  setUser(datos: LoginUser | null) {
-    sessionStorage.setItem("users", JSON.stringify(datos));
+  setUser(datos: LoginUser | null, user_id : any) {
+    sessionStorage.setItem("users", JSON.stringify({...datos, user_id : user_id }));
   }
 
   getUser(): LoginUser | null {

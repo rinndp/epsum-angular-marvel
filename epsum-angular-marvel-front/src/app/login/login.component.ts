@@ -38,8 +38,8 @@ export class LoginComponent {
 
 
     this.loginService.loginv2(this.loginForm.value as LoginUser).subscribe( {
-      next: () => {
-        this.loginService.setUser(this.loginForm.value as LoginUser);
+      next: response => {
+        this.loginService.setUser(this.loginForm.value as LoginUser, response.user_id);
         this.popupService.loading(
           "Iniciar sesión", "Se ha iniciado sesión espere unos segundos...",
           )
